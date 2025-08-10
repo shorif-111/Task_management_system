@@ -1,0 +1,72 @@
+{% extends "base.html" %}
+{% block content %}
+
+<div class="container mt-5">
+  <div style="background-color: #207fc2ff; text-align: center; padding: 20px; border-radius: 10px;">
+    <h4><b>Welcome to the Task Management System!</b></h4>
+    <h2><i>Your Tasks</i></h2>
+  </div>
+
+  <div class="row mt-4">
+    {% for task in task %}
+    <div class="col-12 col-md-6 col-lg-4 mb-3">
+      <div class="card shadow-sm h-100">
+        
+        <div class="card-body">
+          
+          <h5 class="card-title text-primary"><b>{{ task.title }}</b></h5>
+
+        
+          <p class="card-text">{{ task.description }}</p>
+
+       
+          <p class="mb-1"><strong>Category:</strong> 
+            {% for cat in task.category.all %}
+              <span class="badge bg-secondary">{{ cat.name }}</span>
+            {% endfor %}
+          </p>
+
+         
+          <p class="text-muted mb-2"><small><strong>Assigned at:</strong> {{ task.assigned_at }}</small></p>
+          {% if task.due_date %}
+            <p class="text-muted mb-2"><small><strong>Due Date:</strong> {{ task.due_date }}</small></p>
+          {% else %}
+            <p class="text-muted mb-2"><small><strong>Due Date:</strong> Not set</small></p>
+          {% endif %}
+        </div>
+
+      
+        <div class="card-footer bg-light d-flex justify-content-between align-items-center">
+          {% if not task.is_completed %}
+            <a href="{% url 'edit_task' task.id %}" class="btn btn-warning ">Edit</a>
+            <a href="{% url "delete_task" task.id %}" class="btn btn-danger ">Delete</a>
+            <a href="{% url 'complete_task' task.id %}" class="btn btn-success ">Complete</a>
+          {% else %}
+            <span class="text-success fw-bold">Completed</span>
+             <a href="{% url "delete_task" task.id %}" class="btn btn-danger ">Delete</a>
+          {% endif %}
+        </div>
+        
+      </div>
+    </div>
+    {% endfor %}
+  </div>
+</div>
+
+<style>
+  /* Mobile tweaks */
+  @media (max-width: 576px) {
+    .card-title {
+      font-size: 1rem;
+    }
+    .card-text {
+      font-size: 0.9rem;
+    }
+    .btn-sm {
+      font-size: 0.75rem;
+      padding: 4px 8px;
+    }
+  }
+</style>
+
+{% endblock %}
