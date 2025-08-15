@@ -1,0 +1,30 @@
+{% extends "base.html" %}
+
+{% block content %}
+{% load crispy_forms_tags %}
+<div class="container mt-5" >
+    <h2>Login Here</h2>
+    <form method="POST" action="" novalidate>
+     {% if non_field_errors %}
+        <div class="alert alert-danger">
+            {{ non_field_errors }}
+        </div>
+     {% endif %}
+        {% csrf_token  %}
+        {% for fm in form %}
+        <br>
+           {{ fm.label_tag }}
+        <br>
+       
+           {{ fm }}
+           {{ fm.errors | striptags }}
+              
+        <br>
+        {% endfor %}
+   <br>
+        <button type="submit" class="btn btn-primary">Login</button>
+        <br>
+        <p>Have No Account? <a class="btn btn-sm btn-success" href="{% url "register" %}">Create</a> a New Account <a class="btn btn-sm btn-success" href="{% url "register" %}"> here</a></p>
+    </form>
+    <br>
+{% endblock content %}
